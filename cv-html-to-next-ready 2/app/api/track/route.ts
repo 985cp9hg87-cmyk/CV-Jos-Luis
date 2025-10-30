@@ -1,17 +1,31 @@
-import { NextResponse } from "next/server";
-import { getSupabase } from "@/lib/db";
-export async function POST(req: Request){
-  try{
-    const { type, label } = await req.json();
-    const ua = req.headers.get("user-agent") || null;
-    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || null;
-    if(!type){ return NextResponse.json({ ok:false, error:"type requerido" }, { status:400 }); }
-    const db = getSupabase();
-    if(!db){ console.log("[track] no-supabase", { type, label, ua, ip }); return NextResponse.json({ ok:true, stored:false }); }
-    const { error } = await db.from("events").insert({ type, label: label ?? null, user_agent: ua, ip });
-    if(error){ console.error("[track] insert error", error); return NextResponse.json({ ok:false, error: String(error.message||error) }, { status:500 }); }
-    return NextResponse.json({ ok:true, stored:true });
-  }catch(e:any){
-    return NextResponse.json({ ok:false, error:String(e?.message||e) }, { status:500 });
+import { NextRequest, NextResponse } from "next/server";
+import { getDb } from "@/db/init";
+import { randomUUID } from "crypto";
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { type, label } = body;
+
+    if (!type) {
+      return NextResponse.json({ error: "type is required" }, { status: 400 });
+    }
+
+    const ua = request.headers.get("user-agent") || "";
+    const forwarded = request.headers.get("x-forwarded-for");
+    const ip = forwarded ? forwarded.split(",")[0].trim() : "127.0.0.1";
+
+    const db = getDb();
+    const stmt = db.prepare(`
+      INSERT INTO events (id, type, label, ua, ip)
+      VALUES (?, ?, ?, ?, ?)
+    `);
+
+    stmt.run(randomUUID(), type, label || null, ua, ip);
+
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    console.error("Track error:", error);
+    return NextResponse.json({ error: "Internal error" }, { status: 500 });
   }
 }

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import GA from "@/components/GA";
 import "./../styles/royal-sapphire.css";
 
 export const metadata: Metadata = {
@@ -12,7 +11,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }){
   return (
     <html lang="es">
       <body>
-        <GA />
         {children}
       </body>
     </html>

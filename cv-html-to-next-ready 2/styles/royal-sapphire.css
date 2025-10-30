@@ -1,7 +1,8 @@
 /* Royal Sapphire (migrado) */
 :root{--bg:#0b1321;--panel:#0f172a;--panel-2:#0a1323;--text:#f8fafc;--muted:#cbd5e1;--brand1:#0ea5e9;--brand2:#22d3ee;--stroke:rgba(14,165,233,.35);--shadow:0 22px 60px rgba(0,0,0,.45);--radius:20px}
-*{box-sizing:border-box}
-body{margin:0;background:radial-gradient(900px 380px at 10% -5%, rgba(14,165,233,.10), transparent 60%),radial-gradient(800px 340px at 110% 0%, rgba(34,211,238,.10), transparent 60%),linear-gradient(180deg, #0b1321 0%, #0e172b 40%, #0a1323 100%);color:var(--text);font:16px/1.65 -apple-system,system-ui,Segoe UI,Inter,Roboto,Helvetica,Arial,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;margin:0;padding:0}
+body{background:radial-gradient(900px 380px at 10% -5%, rgba(14,165,233,.10), transparent 60%),radial-gradient(800px 340px at 110% 0%, rgba(34,211,238,.10), transparent 60%),linear-gradient(180deg, #0b1321 0%, #0e172b 40%, #0a1323 100%);color:var(--text);font:16px/1.65 -apple-system,system-ui,Segoe UI,Inter,Roboto,Helvetica,Arial,sans-serif}
 .wrap{width:min(1180px,92vw);margin:auto;padding:36px 0 90px}
 .grid{display:grid;grid-template-columns:540px 1fr;gap:28px}
 header.hero{display:grid;grid-template-columns:180px 1fr;gap:20px;align-items:center;margin-bottom:22px}
